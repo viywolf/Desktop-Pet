@@ -20,3 +20,26 @@ texture = ExtResource("1_ig7tw")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Character/Area2D" unique_id=210448222]
 position = Vector2(-1.5, -1.5)
 shape = SubResource("RectangleShape2D_ig7tw")
+
+[node name="WindowPopup" type="Node2D" parent="." unique_id=656472611]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="WindowPopup" unique_id=682292283]
+offset_left = -60.0
+offset_top = -20.0
+offset_right = 63.0
+offset_bottom = 20.0
+
+[node name="LeftButton" type="Button" parent="WindowPopup/HBoxContainer" unique_id=1681658003]
+layout_mode = 2
+text = "<"
+
+[node name="Button" type="Button" parent="WindowPopup/HBoxContainer" unique_id=2012577982]
+layout_mode = 2
+text = "textextet"
+
+[node name="RightButton" type="Button" parent="WindowPopup/HBoxContainer" unique_id=1416864584]
+layout_mode = 2
+text = ">"
+
+[connection signal="mouse_entered" from="Character/Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Character/Area2D" to="." method="_on_area_2d_mouse_exited"]
