@@ -19,7 +19,6 @@ unresizable = true
 borderless = true
 always_on_top = true
 transparent = true
-mouse_passthrough = true
 
 [node name="Character" type="Node2D" parent="MainWindow" unique_id=320743332]
 position = Vector2(100, 100)
@@ -57,6 +56,7 @@ text = ">"
 transparent_bg = true
 oversampling_override = 1.0
 position = Vector2i(500, 500)
+visible = false
 unresizable = true
 borderless = true
 always_on_top = true
@@ -66,6 +66,3 @@ popup_window = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Window" unique_id=1235584671]
 texture = ExtResource("1_ig7tw")
-
-[connection signal="mouse_entered" from="MainWindow/Character/Area2D" to="." method="_on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="MainWindow/Character/Area2D" to="." method="_on_area_2d_mouse_exited"]

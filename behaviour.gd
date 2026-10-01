@@ -24,6 +24,8 @@ var has_right_clicked := false
 
 var saved_local_mouse_pos := Vector2.ZERO
 
+var left_click_held := false
+
 func _ready() -> void:
 	Engine.max_fps = 24
 	screen_size = Vector2(DisplayServer.screen_get_size())
@@ -41,7 +43,6 @@ func _physics_process(delta: float) -> void:
 	
 	if (mouse_pos.x > main_window_pos.x and mouse_pos.x < main_window_pos.x + main_window_size.x
 	and mouse_pos.y > main_window_pos.y and mouse_pos.y < main_window_pos.y + main_window_size.y):
-		print("In zone of window")
 		is_mouse_in_area = true
 	else:
 		is_mouse_in_area = false
@@ -50,7 +51,14 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("Terminate Program"):
 		print("I leave now, bye")
 		get_tree().quit()
-	
+		
+	if Input.is_action_pressed("Left Click") == false:
+		if left_click_held:
+			left_click_held = false
+			is_dragging = false
+			print("not dragging5")
+			
+	#"""
 	if is_mouse_in_area:
 		if Input.is_action_just_pressed("Left Click"):
 			is_dragging = true
@@ -62,15 +70,14 @@ func _physics_process(delta: float) -> void:
 			is_dragging = false
 			has_right_clicked = true
 			print("Right clicked!")
+	#"""
 	
 	if is_dragging:
+		print("is dragging")
 		if saved_local_mouse_pos == Vector2.ZERO:
 			saved_local_mouse_pos = local_mouse_pos
 		var new_win_pos: Vector2 = mouse_pos - saved_local_mouse_pos
 		DisplayServer.window_set_position(Vector2i(new_win_pos))
-		print(mouse_pos)
-		print(local_mouse_pos)
-		print(new_win_pos)
 		$MainWindow.position = Vector2i(new_win_pos)
 		return
 	else:
@@ -123,27 +130,18 @@ func _physics_process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	pass
-	if event is InputEventMouseButton: 
+	print(event)
+	if event is InputEventMouseButton and event.pressed: 
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			print("left click")
-			is_dragging = true
+			left_click_held = true
 			if is_mouse_in_area:
-				print("Is in area")
+				print("Is in area and left click")
+				is_dragging = true
 		if event.button_index == MOUSE_BUTTON_RIGHT:
 			print("right click")
-	else:
+	if is_dragging and not event.pressed:
 		is_dragging = false
-	
-
-
-func _on_area_2d_mouse_entered() -> void:
-	is_mouse_in_area = true
-	print("Mouse in area")
-
-
-func _on_area_2d_mouse_exited() -> void:
-	is_mouse_in_area = false
 
 
 func try_to_idle() -> void:
