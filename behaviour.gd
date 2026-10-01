@@ -22,6 +22,8 @@ var drag_offset := Vector2()
 var is_mouse_in_area := false
 var has_right_clicked := false
 
+var saved_local_mouse_pos := Vector2.ZERO
+
 func _ready() -> void:
 	Engine.max_fps = 24
 	screen_size = Vector2(DisplayServer.screen_get_size())
@@ -31,6 +33,23 @@ func _physics_process(delta: float) -> void:
 	var mouse_pos := Vector2(DisplayServer.mouse_get_position())
 	var win_pos := Vector2(DisplayServer.window_get_position())
 	var offset: Vector2 = mouse_pos - win_pos
+	
+	var main_window_pos: Vector2 = $MainWindow.position
+	var main_window_size: Vector2 = $MainWindow.size
+	
+	var local_mouse_pos: Vector2 = get_local_mouse_position()
+	
+	if (mouse_pos.x > main_window_pos.x and mouse_pos.x < main_window_pos.x + main_window_size.x
+	and mouse_pos.y > main_window_pos.y and mouse_pos.y < main_window_pos.y + main_window_size.y):
+		print("In zone of window")
+		is_mouse_in_area = true
+	else:
+		is_mouse_in_area = false
+	
+	# F8 Key
+	if Input.is_action_just_pressed("Terminate Program"):
+		print("I leave now, bye")
+		get_tree().quit()
 	
 	if is_mouse_in_area:
 		if Input.is_action_just_pressed("Left Click"):
@@ -45,13 +64,17 @@ func _physics_process(delta: float) -> void:
 			print("Right clicked!")
 	
 	if is_dragging:
-		var new_win_pos: Vector2 = mouse_pos #- offset
+		if saved_local_mouse_pos == Vector2.ZERO:
+			saved_local_mouse_pos = local_mouse_pos
+		var new_win_pos: Vector2 = mouse_pos - saved_local_mouse_pos
 		DisplayServer.window_set_position(Vector2i(new_win_pos))
 		print(mouse_pos)
-		print(offset)
+		print(local_mouse_pos)
 		print(new_win_pos)
 		$MainWindow.position = Vector2i(new_win_pos)
 		return
+	else:
+		saved_local_mouse_pos = Vector2.ZERO
 		
 	if has_right_clicked:
 		speed = 0
@@ -101,11 +124,16 @@ func _physics_process(delta: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	pass
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		print("left click")
-		is_dragging = true
-		if is_mouse_in_area:
-			print("djfo")
+	if event is InputEventMouseButton: 
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			print("left click")
+			is_dragging = true
+			if is_mouse_in_area:
+				print("Is in area")
+		if event.button_index == MOUSE_BUTTON_RIGHT:
+			print("right click")
+	else:
+		is_dragging = false
 	
 
 
