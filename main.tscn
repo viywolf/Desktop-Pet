@@ -9,37 +9,63 @@ size = Vector2(195, 199)
 [node name="Main" type="Node2D" unique_id=1748423270]
 script = ExtResource("1_0xm2m")
 
-[node name="Character" type="Node2D" parent="." unique_id=320743332]
+[node name="MainWindow" type="Window" parent="." unique_id=311602507]
+transparent_bg = true
+oversampling_override = 1.0
+position = Vector2i(200, 500)
+size = Vector2i(200, 200)
+mouse_passthrough_polygon = PackedVector2Array(0, 0, 200, 0, 200, 200, 0, 200)
+unresizable = true
+borderless = true
+always_on_top = true
+transparent = true
+mouse_passthrough = true
+
+[node name="Character" type="Node2D" parent="MainWindow" unique_id=320743332]
 position = Vector2(100, 100)
 
-[node name="Sprite2D" type="Sprite2D" parent="Character" unique_id=1769506315]
+[node name="Sprite2D" type="Sprite2D" parent="MainWindow/Character" unique_id=1769506315]
 texture = ExtResource("1_ig7tw")
 
-[node name="Area2D" type="Area2D" parent="Character" unique_id=258989734]
+[node name="Area2D" type="Area2D" parent="MainWindow/Character" unique_id=258989734]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Character/Area2D" unique_id=210448222]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MainWindow/Character/Area2D" unique_id=210448222]
 position = Vector2(-1.5, -1.5)
 shape = SubResource("RectangleShape2D_ig7tw")
 
-[node name="WindowPopup" type="Node2D" parent="." unique_id=656472611]
+[node name="WindowPopup" type="Node2D" parent="MainWindow" unique_id=656472611]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="WindowPopup" unique_id=682292283]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainWindow/WindowPopup" unique_id=682292283]
 offset_left = -60.0
 offset_top = -20.0
 offset_right = 63.0
 offset_bottom = 20.0
 
-[node name="LeftButton" type="Button" parent="WindowPopup/HBoxContainer" unique_id=1681658003]
+[node name="LeftButton" type="Button" parent="MainWindow/WindowPopup/HBoxContainer" unique_id=1681658003]
 layout_mode = 2
 text = "<"
 
-[node name="Button" type="Button" parent="WindowPopup/HBoxContainer" unique_id=2012577982]
+[node name="Button" type="Button" parent="MainWindow/WindowPopup/HBoxContainer" unique_id=2012577982]
 layout_mode = 2
 text = "textextet"
 
-[node name="RightButton" type="Button" parent="WindowPopup/HBoxContainer" unique_id=1416864584]
+[node name="RightButton" type="Button" parent="MainWindow/WindowPopup/HBoxContainer" unique_id=1416864584]
 layout_mode = 2
 text = ">"
 
-[connection signal="mouse_entered" from="Character/Area2D" to="." method="_on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="Character/Area2D" to="." method="_on_area_2d_mouse_exited"]
+[node name="Window" type="Window" parent="." unique_id=1358538807]
+transparent_bg = true
+oversampling_override = 1.0
+position = Vector2i(500, 500)
+unresizable = true
+borderless = true
+always_on_top = true
+transparent = true
+unfocusable = true
+popup_window = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Window" unique_id=1235584671]
+texture = ExtResource("1_ig7tw")
+
+[connection signal="mouse_entered" from="MainWindow/Character/Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="MainWindow/Character/Area2D" to="." method="_on_area_2d_mouse_exited"]

@@ -2,9 +2,10 @@ extends Node2D
 
 const BASE_SPEED := 300.0
 
-@onready var character: Node2D = $Character
-@onready var area: Area2D = $Character/Area2D
-@onready var popup: Node2D = $WindowPopup
+@onready var character: Node2D = $MainWindow/Character
+@onready var area: Area2D = $MainWindow/Character/Area2D
+@onready var popup: Node2D = $MainWindow/WindowPopup
+@onready var main_window: Window = get_window()
 
 var speed: float = 300.0
 var direction := Vector2.RIGHT
@@ -35,21 +36,33 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed("Left Click"):
 			is_dragging = true
 			has_right_clicked = false
+			print("Left clicked!")
 		if Input.is_action_just_released("Left Click"):
 			is_dragging = false
 		if Input.is_action_just_pressed("Right Click"):
 			is_dragging = false
 			has_right_clicked = true
+			print("Right clicked!")
 	
 	if is_dragging:
-		var new_win_pos: Vector2 = mouse_pos - offset
+		var new_win_pos: Vector2 = mouse_pos #- offset
 		DisplayServer.window_set_position(Vector2i(new_win_pos))
+		print(mouse_pos)
+		print(offset)
+		print(new_win_pos)
+		$MainWindow.position = Vector2i(new_win_pos)
 		return
 		
 	if has_right_clicked:
 		speed = 0
 		if popup.visible == false:
-			popup.position = offset
+			popup.position = mouse_pos
+			if get_global_mouse_position().x < 100:
+				popup.position = offset + Vector2(50, 0)
+				print("Show on right")
+			else:
+				popup.position = offset - Vector2(50, 0)
+				print("Show on left")
 			popup.show()
 	else:
 		popup.hide()
@@ -71,10 +84,12 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	var window_position := Vector2(DisplayServer.window_get_position())
+	window_position = $MainWindow.position
 	window_position += direction * speed * delta
 	window_position.x = clamp(window_position.x, 0, screen_size.x - character_size.x)
 	window_position.y = clamp(window_position.y, 0, screen_size.y - character_size.y)
 	DisplayServer.window_set_position(Vector2i(window_position))
+	$MainWindow.position = Vector2i(window_position)
 	
 	if window_position.x <= 0 or window_position.x >= screen_size.x - character_size.x:
 		direction.x *= -1
@@ -84,8 +99,19 @@ func _physics_process(delta: float) -> void:
 		try_to_idle()
 
 
+func _input(event: InputEvent) -> void:
+	pass
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		print("left click")
+		is_dragging = true
+		if is_mouse_in_area:
+			print("djfo")
+	
+
+
 func _on_area_2d_mouse_entered() -> void:
 	is_mouse_in_area = true
+	print("Mouse in area")
 
 
 func _on_area_2d_mouse_exited() -> void:
