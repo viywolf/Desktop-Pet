@@ -51,18 +51,3 @@ text = "textextet"
 [node name="RightButton" type="Button" parent="MainWindow/WindowPopup/HBoxContainer" unique_id=1416864584]
 layout_mode = 2
 text = ">"
-
-[node name="Window" type="Window" parent="." unique_id=1358538807]
-transparent_bg = true
-oversampling_override = 1.0
-position = Vector2i(500, 500)
-visible = false
-unresizable = true
-borderless = true
-always_on_top = true
-transparent = true
-unfocusable = true
-popup_window = true
-
-[node name="Sprite2D" type="Sprite2D" parent="Window" unique_id=1235584671]
-texture = ExtResource("1_ig7tw")

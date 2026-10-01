@@ -47,6 +47,9 @@ func _physics_process(delta: float) -> void:
 	else:
 		is_mouse_in_area = false
 	
+	if Input.is_action_just_pressed("ui_up"):
+		add_new_window()
+	
 	# F8 Key
 	if Input.is_action_just_pressed("Terminate Program"):
 		print("I leave now, bye")
@@ -148,3 +151,20 @@ func try_to_idle() -> void:
 	if randf() < 0.3:
 		is_idling = true
 		idle_timer = randf_range(1.0, 3.0)
+
+var count = 0
+func add_new_window() -> void:
+	var new_window: Window = Window.new()
+	var new_sprite2d: Sprite2D = Sprite2D.new()
+	new_sprite2d.texture = load("res://icon.svg")
+	new_window.add_child(new_sprite2d)
+	new_window.unresizable = true
+	new_window.borderless = true
+	new_window.always_on_top = true
+	new_window.transparent = true
+	new_window.gui_embed_subwindows = true
+	new_window.transparent_bg = true
+	new_window.unfocusable = true
+	add_child(new_window)
+	count += 1
+	print(count)
