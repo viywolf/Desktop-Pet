@@ -34,20 +34,38 @@ shape = SubResource("RectangleShape2D_ig7tw")
 
 [node name="WindowPopup" type="Node2D" parent="MainWindow" unique_id=656472611]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainWindow/WindowPopup" unique_id=682292283]
-offset_left = -60.0
-offset_top = -20.0
-offset_right = 63.0
-offset_bottom = 20.0
+[node name="Menu" type="Control" parent="MainWindow/WindowPopup" unique_id=1490537136]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -62.0
+offset_top = -23.0
+offset_right = 62.0
+offset_bottom = 15.0
 
-[node name="LeftButton" type="Button" parent="MainWindow/WindowPopup/HBoxContainer" unique_id=1681658003]
+[node name="Panel" type="Panel" parent="MainWindow/WindowPopup/Menu" unique_id=817560434]
+layout_mode = 0
+offset_right = 125.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainWindow/WindowPopup/Menu" unique_id=682292283]
+layout_mode = 0
+offset_right = 123.0
+offset_bottom = 40.0
+
+[node name="LeftButton" type="Button" parent="MainWindow/WindowPopup/Menu/HBoxContainer" unique_id=1681658003]
 layout_mode = 2
+mouse_filter = 1
 text = "<"
 
-[node name="Button" type="Button" parent="MainWindow/WindowPopup/HBoxContainer" unique_id=2012577982]
+[node name="Button" type="Button" parent="MainWindow/WindowPopup/Menu/HBoxContainer" unique_id=2012577982]
 layout_mode = 2
+mouse_filter = 1
 text = "textextet"
 
-[node name="RightButton" type="Button" parent="MainWindow/WindowPopup/HBoxContainer" unique_id=1416864584]
+[node name="RightButton" type="Button" parent="MainWindow/WindowPopup/Menu/HBoxContainer" unique_id=1416864584]
 layout_mode = 2
+mouse_filter = 1
 text = ">"
+
+[connection signal="mouse_entered" from="MainWindow/WindowPopup/Menu" to="." method="_on_menu_mouse_entered"]
+[connection signal="mouse_exited" from="MainWindow/WindowPopup/Menu" to="." method="_on_menu_mouse_exited"]

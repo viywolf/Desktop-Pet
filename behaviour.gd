@@ -26,6 +26,8 @@ var saved_local_mouse_pos := Vector2.ZERO
 
 var left_click_held := false
 
+var mouse_in_menu := false
+
 func _ready() -> void:
 	Engine.max_fps = 24
 	screen_size = Vector2(DisplayServer.screen_get_size())
@@ -49,34 +51,27 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("ui_up"):
 		add_new_window()
+		open_options_window(offset)
 	
 	# F8 Key
 	if Input.is_action_just_pressed("Terminate Program"):
 		print("I leave now, bye")
 		get_tree().quit()
-		
-	if Input.is_action_pressed("Left Click") == false:
-		if left_click_held:
-			left_click_held = false
-			is_dragging = false
-			print("not dragging5")
-			
-	#"""
+	
 	if is_mouse_in_area:
 		if Input.is_action_just_pressed("Left Click"):
-			is_dragging = true
-			has_right_clicked = false
-			print("Left clicked!")
-		if Input.is_action_just_released("Left Click"):
+			if not mouse_in_menu:
+				is_dragging = true
+				has_right_clicked = false
+				print("Left clicked!")
+		elif Input.is_action_just_released("Left Click"):
 			is_dragging = false
-		if Input.is_action_just_pressed("Right Click"):
+		elif Input.is_action_just_pressed("Right Click"):
 			is_dragging = false
 			has_right_clicked = true
 			print("Right clicked!")
-	#"""
 	
 	if is_dragging:
-		print("is dragging")
 		if saved_local_mouse_pos == Vector2.ZERO:
 			saved_local_mouse_pos = local_mouse_pos
 		var new_win_pos: Vector2 = mouse_pos - saved_local_mouse_pos
@@ -131,22 +126,6 @@ func _physics_process(delta: float) -> void:
 		direction.y *= -1
 		try_to_idle()
 
-
-func _input(event: InputEvent) -> void:
-	print(event)
-	if event is InputEventMouseButton and event.pressed: 
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			print("left click")
-			left_click_held = true
-			if is_mouse_in_area:
-				print("Is in area and left click")
-				is_dragging = true
-		if event.button_index == MOUSE_BUTTON_RIGHT:
-			print("right click")
-	if is_dragging and not event.pressed:
-		is_dragging = false
-
-
 func try_to_idle() -> void:
 	if randf() < 0.3:
 		is_idling = true
@@ -168,3 +147,17 @@ func add_new_window() -> void:
 	add_child(new_window)
 	count += 1
 	print(count)
+
+
+func open_options_window(mouse_position: Vector2) -> void:
+	var options_window = load("res://options_window.tscn").instantiate()
+	options_window.position = mouse_position
+	add_child(options_window)
+
+
+func _on_menu_mouse_entered() -> void:
+	mouse_in_menu = true
+
+
+func _on_menu_mouse_exited() -> void:
+	mouse_in_menu = false
