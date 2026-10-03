@@ -5,7 +5,10 @@ const BASE_SPEED := 300.0
 @onready var character: Node2D = $MainWindow/Character
 @onready var area: Area2D = $MainWindow/Character/Area2D
 @onready var popup: Node2D = $MainWindow/WindowPopup
+@onready var sprite: AnimatedSprite2D = $MainWindow/Character/Sprite
 @onready var main_window: Window = get_window()
+
+@onready var options_scene: PackedScene = preload("res://options_window.tscn")
 
 var speed: float = 300.0
 var direction := Vector2.RIGHT
@@ -31,6 +34,7 @@ var mouse_in_menu := false
 func _ready() -> void:
 	Engine.max_fps = 24
 	screen_size = Vector2(DisplayServer.screen_get_size())
+	$MainWindow.position.y = screen_size.y - character_size.y - 10
 
 
 func _physics_process(delta: float) -> void:
@@ -51,7 +55,6 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("ui_up"):
 		add_new_window()
-		open_options_window(offset)
 	
 	# F8 Key
 	if Input.is_action_just_pressed("Terminate Program"):
@@ -96,7 +99,7 @@ func _physics_process(delta: float) -> void:
 		popup.hide()
 		
 	if is_mouse_in_area:
-		speed -= 300 * delta
+		speed -= 600 * delta
 		speed = max(0, speed)
 	else:
 		if speed < 300.0:
@@ -104,6 +107,7 @@ func _physics_process(delta: float) -> void:
 			speed = min(speed, 300)
 	
 	if is_idling:
+		sprite.play("await")
 		idle_timer -= delta
 		if idle_timer <= 0:
 			is_idling = false
@@ -118,6 +122,19 @@ func _physics_process(delta: float) -> void:
 	window_position.y = clamp(window_position.y, 0, screen_size.y - character_size.y)
 	DisplayServer.window_set_position(Vector2i(window_position))
 	$MainWindow.position = Vector2i(window_position)
+	
+	if is_zero_approx(speed):
+		sprite.play("await")
+	elif speed < 200:
+		if direction == Vector2.RIGHT:
+			sprite.play("stop_right")
+		elif direction == Vector2.LEFT:
+			sprite.play("stop_left")
+	else:
+		if direction == Vector2.RIGHT:
+			sprite.play("run_right")
+		elif direction == Vector2.LEFT:
+			sprite.play("run_left")
 	
 	if window_position.x <= 0 or window_position.x >= screen_size.x - character_size.x:
 		direction.x *= -1
@@ -149,15 +166,14 @@ func add_new_window() -> void:
 	print(count)
 
 
-func open_options_window(mouse_position: Vector2) -> void:
-	var options_window = load("res://options_window.tscn").instantiate()
-	options_window.position = mouse_position
-	add_child(options_window)
-
-
 func _on_menu_mouse_entered() -> void:
 	mouse_in_menu = true
 
 
 func _on_menu_mouse_exited() -> void:
 	mouse_in_menu = false
+
+
+func _on_option_button_pressed() -> void:
+	var options_window = options_scene.instantiate()
+	add_child(options_window)

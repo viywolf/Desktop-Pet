@@ -1,7 +1,66 @@
 [gd_scene format=3 uid="uid://0fc6ujc6qk17"]
 
 [ext_resource type="Script" uid="uid://b78m18iec3whv" path="res://behaviour.gd" id="1_0xm2m"]
-[ext_resource type="Texture2D" uid="uid://cd4t1coiskl3h" path="res://icon.svg" id="1_ig7tw"]
+[ext_resource type="Texture2D" uid="uid://cieh3hb5dlqif" path="res://assets/Await2.png" id="2_kek77"]
+[ext_resource type="Texture2D" uid="uid://l5ab6lpfmk2k" path="res://assets/Await1.png" id="3_4c57u"]
+[ext_resource type="Texture2D" uid="uid://b65vbjeenqtnr" path="res://assets/RunLeft1.png" id="4_efxa6"]
+[ext_resource type="Texture2D" uid="uid://bphnspa4ayovd" path="res://assets/RunLeft2.png" id="5_dg77c"]
+[ext_resource type="Texture2D" uid="uid://bfopjwwoq71ij" path="res://assets/RunRight1.png" id="6_ycdy4"]
+[ext_resource type="Texture2D" uid="uid://cu7ury38kr4kb" path="res://assets/RunRight2.png" id="7_w48qg"]
+[ext_resource type="Texture2D" uid="uid://dphn178258kvw" path="res://assets/StopLeft.png" id="8_vivmo"]
+[ext_resource type="Texture2D" uid="uid://cx5pvux01wpw3" path="res://assets/StopRight.png" id="9_2cqfq"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ig7tw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_kek77")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_4c57u")
+}],
+"loop": 1,
+"name": &"await",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_efxa6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_dg77c")
+}],
+"loop": 1,
+"name": &"run_left",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_ycdy4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_w48qg")
+}],
+"loop": 1,
+"name": &"run_right",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_vivmo")
+}],
+"loop": 1,
+"name": &"stop_left",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_2cqfq")
+}],
+"loop": 1,
+"name": &"stop_right",
+"speed": 1.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ig7tw"]
 size = Vector2(195, 199)
@@ -12,7 +71,7 @@ script = ExtResource("1_0xm2m")
 [node name="MainWindow" type="Window" parent="." unique_id=311602507]
 transparent_bg = true
 oversampling_override = 1.0
-position = Vector2i(200, 500)
+position = Vector2i(200, 423)
 size = Vector2i(200, 200)
 mouse_passthrough_polygon = PackedVector2Array(0, 0, 200, 0, 200, 200, 0, 200)
 unresizable = true
@@ -23,8 +82,9 @@ transparent = true
 [node name="Character" type="Node2D" parent="MainWindow" unique_id=320743332]
 position = Vector2(100, 100)
 
-[node name="Sprite2D" type="Sprite2D" parent="MainWindow/Character" unique_id=1769506315]
-texture = ExtResource("1_ig7tw")
+[node name="Sprite" type="AnimatedSprite2D" parent="MainWindow/Character" unique_id=1883407332]
+sprite_frames = SubResource("SpriteFrames_ig7tw")
+animation = &"run_right"
 
 [node name="Area2D" type="Area2D" parent="MainWindow/Character" unique_id=258989734]
 
@@ -57,7 +117,7 @@ layout_mode = 2
 mouse_filter = 1
 text = "<"
 
-[node name="Button" type="Button" parent="MainWindow/WindowPopup/Menu/HBoxContainer" unique_id=2012577982]
+[node name="OptionButton" type="Button" parent="MainWindow/WindowPopup/Menu/HBoxContainer" unique_id=2012577982]
 layout_mode = 2
 mouse_filter = 1
 text = "textextet"
@@ -69,3 +129,4 @@ text = ">"
 
 [connection signal="mouse_entered" from="MainWindow/WindowPopup/Menu" to="." method="_on_menu_mouse_entered"]
 [connection signal="mouse_exited" from="MainWindow/WindowPopup/Menu" to="." method="_on_menu_mouse_exited"]
+[connection signal="pressed" from="MainWindow/WindowPopup/Menu/HBoxContainer/OptionButton" to="." method="_on_option_button_pressed"]
