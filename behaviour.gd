@@ -31,6 +31,8 @@ var left_click_held := false
 
 var mouse_in_menu := false
 
+var option_window: Window
+
 func _ready() -> void:
 	Engine.max_fps = 24
 	screen_size = Vector2(DisplayServer.screen_get_size())
@@ -62,6 +64,7 @@ func _physics_process(delta: float) -> void:
 		get_tree().quit()
 	
 	if is_mouse_in_area:
+		sprite.play("await")
 		if Input.is_action_just_pressed("Left Click"):
 			if not mouse_in_menu:
 				is_dragging = true
@@ -75,6 +78,7 @@ func _physics_process(delta: float) -> void:
 			print("Right clicked!")
 	
 	if is_dragging:
+		sprite.play("await")
 		if saved_local_mouse_pos == Vector2.ZERO:
 			saved_local_mouse_pos = local_mouse_pos
 		var new_win_pos: Vector2 = mouse_pos - saved_local_mouse_pos
@@ -85,6 +89,7 @@ func _physics_process(delta: float) -> void:
 		saved_local_mouse_pos = Vector2.ZERO
 		
 	if has_right_clicked:
+		sprite.play("await")
 		speed = 0
 		if popup.visible == false:
 			popup.position = mouse_pos
@@ -95,6 +100,7 @@ func _physics_process(delta: float) -> void:
 				popup.position = offset - Vector2(50, 0)
 				print("Show on left")
 			popup.show()
+		return
 	else:
 		popup.hide()
 		
@@ -175,5 +181,13 @@ func _on_menu_mouse_exited() -> void:
 
 
 func _on_option_button_pressed() -> void:
-	var options_window = options_scene.instantiate()
+	if option_window != null:
+		option_window.queue_free()
+	var options_window: Window = options_scene.instantiate()
+	option_window = options_window
+	options_window.position.y = main_window.position.y
+	if main_window.position.x < screen_size.x / 2:
+		options_window.position.x = main_window.position.x + options_window.size.x + main_window.size.x / 2.
+	else:
+		options_window.position.x = main_window.position.x - options_window.size.x - main_window.size.x / 2
 	add_child(options_window)
