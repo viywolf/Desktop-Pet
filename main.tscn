@@ -9,6 +9,11 @@
 [ext_resource type="Texture2D" uid="uid://cu7ury38kr4kb" path="res://assets/RunRight2.png" id="7_w48qg"]
 [ext_resource type="Texture2D" uid="uid://dphn178258kvw" path="res://assets/StopLeft.png" id="8_vivmo"]
 [ext_resource type="Texture2D" uid="uid://cx5pvux01wpw3" path="res://assets/StopRight.png" id="9_2cqfq"]
+[ext_resource type="Script" uid="uid://o33ik8nbkx6" path="res://audio.gd" id="10_4c57u"]
+[ext_resource type="AudioStream" uid="uid://brpy2maikjgnf" path="res://assets/SoundBird.mp3" id="11_w48qg"]
+[ext_resource type="AudioStream" uid="uid://bhwpkq08b5dj2" path="res://assets/SoundFire.mp3" id="12_vivmo"]
+[ext_resource type="AudioStream" uid="uid://btjnyjdfeqa61" path="res://assets/SoundOcean.mp3" id="13_2cqfq"]
+[ext_resource type="AudioStream" uid="uid://cgv1wqdnmwgs7" path="res://assets/SoundRain.mp3" id="14_yaehf"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ig7tw"]
 animations = [{
@@ -108,6 +113,7 @@ offset_right = 125.0
 offset_bottom = 40.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainWindow/WindowPopup/Menu" unique_id=682292283]
+custom_minimum_size = Vector2(125, 0)
 layout_mode = 0
 offset_right = 123.0
 offset_bottom = 40.0
@@ -120,12 +126,27 @@ text = "<"
 [node name="OptionButton" type="Button" parent="MainWindow/WindowPopup/Menu/HBoxContainer" unique_id=2012577982]
 layout_mode = 2
 mouse_filter = 1
-text = "textextet"
+text = "Options"
 
 [node name="RightButton" type="Button" parent="MainWindow/WindowPopup/Menu/HBoxContainer" unique_id=1416864584]
 layout_mode = 2
 mouse_filter = 1
 text = ">"
+
+[node name="Audio" type="Node" parent="." unique_id=172292084]
+script = ExtResource("10_4c57u")
+
+[node name="Bird" type="AudioStreamPlayer" parent="Audio" unique_id=834136054]
+stream = ExtResource("11_w48qg")
+
+[node name="Fire" type="AudioStreamPlayer" parent="Audio" unique_id=1700165764]
+stream = ExtResource("12_vivmo")
+
+[node name="Ocean" type="AudioStreamPlayer" parent="Audio" unique_id=2057694185]
+stream = ExtResource("13_2cqfq")
+
+[node name="Rain" type="AudioStreamPlayer" parent="Audio" unique_id=1686186303]
+stream = ExtResource("14_yaehf")
 
 [connection signal="mouse_entered" from="MainWindow/WindowPopup/Menu" to="." method="_on_menu_mouse_entered"]
 [connection signal="mouse_exited" from="MainWindow/WindowPopup/Menu" to="." method="_on_menu_mouse_exited"]

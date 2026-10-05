@@ -31,6 +31,44 @@ offset_right = 150.0
 offset_bottom = 40.0
 text = "X"
 
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1400700238]
+offset_top = 53.0
+offset_right = 146.0
+offset_bottom = 290.0
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=285505489]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="SoundLabel" type="Label" parent="ScrollContainer/VBoxContainer" unique_id=189542660]
+layout_mode = 2
+text = "Sound Effects"
+horizontal_alignment = 1
+
+[node name="OceanSoundCheckBox" type="CheckBox" parent="ScrollContainer/VBoxContainer" unique_id=1243514029]
+layout_mode = 2
+text = "Ocean"
+
+[node name="RainSoundCheckBox" type="CheckBox" parent="ScrollContainer/VBoxContainer" unique_id=1490194801]
+layout_mode = 2
+text = "Rain"
+
+[node name="BirdSoundCheckBox" type="CheckBox" parent="ScrollContainer/VBoxContainer" unique_id=213227445]
+layout_mode = 2
+text = "Birds"
+
+[node name="FireSoundCheckBox" type="CheckBox" parent="ScrollContainer/VBoxContainer" unique_id=604048253]
+layout_mode = 2
+text = "Fire"
+
+[node name="MovementLabel" type="Label" parent="ScrollContainer/VBoxContainer" unique_id=689746642]
+layout_mode = 2
+
+[node name="AwaitCheckBox" type="CheckBox" parent="ScrollContainer/VBoxContainer" unique_id=1803179033]
+layout_mode = 2
+text = "Pause Movement"
+
 [connection signal="mouse_entered" from="TopBar" to="." method="_on_top_bar_mouse_entered"]
 [connection signal="mouse_exited" from="TopBar" to="." method="_on_top_bar_mouse_exited"]
 [connection signal="pressed" from="TopBar/CloseButton" to="." method="_on_close_button_pressed"]

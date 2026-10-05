@@ -1,6 +1,6 @@
 extends Node2D
 
-const BASE_SPEED := 300.0
+const BASE_SPEED := 180.0
 
 @onready var character: Node2D = $MainWindow/Character
 @onready var area: Area2D = $MainWindow/Character/Area2D
@@ -10,7 +10,7 @@ const BASE_SPEED := 300.0
 
 @onready var options_scene: PackedScene = preload("res://options_window.tscn")
 
-var speed: float = 300.0
+var speed: float = BASE_SPEED
 var direction := Vector2.RIGHT
 var screen_size := Vector2()
 var window_size := Vector2(500, 500)
@@ -56,7 +56,8 @@ func _physics_process(delta: float) -> void:
 		is_mouse_in_area = false
 	
 	if Input.is_action_just_pressed("ui_up"):
-		add_new_window()
+		pass
+		#add_new_window()
 	
 	# F8 Key
 	if Input.is_action_just_pressed("Terminate Program"):
@@ -84,6 +85,7 @@ func _physics_process(delta: float) -> void:
 		var new_win_pos: Vector2 = mouse_pos - saved_local_mouse_pos
 		DisplayServer.window_set_position(Vector2i(new_win_pos))
 		$MainWindow.position = Vector2i(new_win_pos)
+		is_idling = false
 		return
 	else:
 		saved_local_mouse_pos = Vector2.ZERO
@@ -105,21 +107,26 @@ func _physics_process(delta: float) -> void:
 		popup.hide()
 		
 	if is_mouse_in_area:
-		speed -= 600 * delta
+		speed -= BASE_SPEED * 2 * delta
 		speed = max(0, speed)
 	else:
-		if speed < 300.0:
-			speed += 300 * delta
-			speed = min(speed, 300)
+		if speed < BASE_SPEED:
+			speed += BASE_SPEED * delta
+			speed = min(speed, BASE_SPEED)
 	
+	idle_timer -= delta
 	if is_idling:
 		sprite.play("await")
-		idle_timer -= delta
 		if idle_timer <= 0:
 			is_idling = false
 			speed = BASE_SPEED
 			# Play animation
 		return
+	else:
+		if -idle_timer > 5:
+			if randf() < 0.05 * delta:
+				print("random less than " + str(0.05 * delta))
+				idle()
 	
 	var window_position := Vector2(DisplayServer.window_get_position())
 	window_position = $MainWindow.position
@@ -131,28 +138,27 @@ func _physics_process(delta: float) -> void:
 	
 	if is_zero_approx(speed):
 		sprite.play("await")
-	elif speed < 200:
-		if direction == Vector2.RIGHT:
+	elif speed < BASE_SPEED / 2:
+		if direction.x == Vector2.RIGHT.x:
 			sprite.play("stop_right")
-		elif direction == Vector2.LEFT:
+		elif direction.x == Vector2.LEFT.x:
 			sprite.play("stop_left")
 	else:
-		if direction == Vector2.RIGHT:
+		if direction.x == Vector2.RIGHT.x:
 			sprite.play("run_right")
-		elif direction == Vector2.LEFT:
+		elif direction.x == Vector2.LEFT.x:
 			sprite.play("run_left")
 	
 	if window_position.x <= 0 or window_position.x >= screen_size.x - character_size.x:
 		direction.x *= -1
-		try_to_idle()
-	if window_position.y <= 0 or window_position.y >= screen_size.y - character_size.y:
-		direction.y *= -1
-		try_to_idle()
+	if window_position.y < screen_size.y - (screen_size.y / 5): 
+		direction.y = 1
+	else:
+		direction.y = 0
 
-func try_to_idle() -> void:
-	if randf() < 0.3:
-		is_idling = true
-		idle_timer = randf_range(1.0, 3.0)
+func idle() -> void:
+	is_idling = true
+	idle_timer = randf_range(5.0, 30.0)
 
 var count = 0
 func add_new_window() -> void:
