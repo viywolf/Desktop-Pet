@@ -124,12 +124,13 @@ mouse_filter = 1
 text = "<"
 
 [node name="OptionButton" type="Button" parent="MainWindow/WindowPopup/Menu/HBoxContainer" unique_id=2012577982]
-visible = false
+custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 mouse_filter = 1
 text = "Options"
 
 [node name="QuitButton" type="Button" parent="MainWindow/WindowPopup/Menu/HBoxContainer" unique_id=2095125242]
+visible = false
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 text = "Death"

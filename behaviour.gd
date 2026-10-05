@@ -118,6 +118,18 @@ func _physics_process(delta: float) -> void:
 	else:
 		popup.hide()
 	
+	if Settings.stop_movement_setting_changed:
+		Settings.stop_movement_setting_changed = false
+		print("change")
+		if Settings.stop_movement == true:
+			print("stop movement true")
+			idle_timer = 80543890
+			is_idling = true
+		else:
+			print("stop idle")
+			idle_timer = 0
+			is_idling = false
+	
 	idle_timer -= delta
 	if is_idling:
 		sprite.play("await")
@@ -138,14 +150,6 @@ func _physics_process(delta: float) -> void:
 	window_position.y = clamp(window_position.y, 0, screen_size.y - character_size.y)
 	DisplayServer.window_set_position(Vector2i(window_position))
 	$MainWindow.position = Vector2i(window_position)
-	
-	if Settings.stop_movement_setting_changed:
-		Settings.stop_movement_setting_changed = false
-		if Settings.stop_movement == true:
-			idle_timer = 80543890
-			is_idling = true
-		else:
-			idle_timer = 0
 	
 	if is_zero_approx(speed):
 		sprite.play("await")
@@ -196,7 +200,6 @@ func _on_menu_mouse_entered() -> void:
 func _on_menu_mouse_exited() -> void:
 	mouse_in_menu = false
 
-
 func _on_option_button_pressed() -> void:
 	if option_window != null:
 		option_window.queue_free()
@@ -207,6 +210,8 @@ func _on_option_button_pressed() -> void:
 		options_window.position.x = main_window.position.x + options_window.size.x + main_window.size.x / 2.
 	else:
 		options_window.position.x = main_window.position.x - options_window.size.x - main_window.size.x / 2
+	if main_window.position.y > screen_size.y / 2:
+		options_window.position.y -= 100
 	add_child(options_window)
 
 func add_note_window() -> void:
@@ -220,16 +225,17 @@ func add_note_window() -> void:
 func _on_left_button_pressed() -> void:
 	currently_visible_option_index -= 1
 	if currently_visible_option_index < 0:
-		currently_visible_option_index = $MainWindow/WindowPopup/Menu/HBoxContainer.get_child_count() - 2
+		currently_visible_option_index = $MainWindow/WindowPopup/Menu/HBoxContainer.get_child_count() - 3
 	show_option_button()
 
 func _on_right_button_pressed() -> void:
 	currently_visible_option_index += 1
-	if currently_visible_option_index >= $MainWindow/WindowPopup/Menu/HBoxContainer.get_child_count() - 2:
+	if currently_visible_option_index > $MainWindow/WindowPopup/Menu/HBoxContainer.get_child_count() - 3:
 		currently_visible_option_index = 0
 	show_option_button()
 
 func show_option_button() -> void:
+	print(currently_visible_option_index)
 	for i in range($MainWindow/WindowPopup/Menu/HBoxContainer.get_child_count()):
 		if i == 0 or i == $MainWindow/WindowPopup/Menu/HBoxContainer.get_child_count() - 1:
 			continue
