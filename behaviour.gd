@@ -11,6 +11,7 @@ const BASE_SPEED := 180.0
 @onready var options_scene: PackedScene = preload("res://options_window.tscn")
 @onready var music_effect_scene: PackedScene = preload("res://music_effect.tscn")
 
+var time: int = 0
 var speed: float = BASE_SPEED
 var direction := Vector2.RIGHT
 var screen_size := Vector2()
@@ -56,20 +57,17 @@ func _physics_process(delta: float) -> void:
 	else:
 		is_mouse_in_area = false
 	
-	if Input.is_action_just_pressed("ui_up"):
-		pass
-		if Global.music_notes < Global.music_notes_limit:
-			var new_music = music_effect_scene.instantiate()
-			new_music.position = $MainWindow.position
-			new_music.position.x += randi_range(0, 200)
-			add_child(new_music)
-		
-		#add_new_window()
-	
 	# F8 Key
 	if Input.is_action_just_pressed("Terminate Program"):
 		print("I leave now, bye")
 		get_tree().quit()
+	
+	time += int(delta * 1000)
+	print(time)
+	if Settings.is_audio_playing:
+		if time % 1050 == 0:
+			await get_tree().create_timer(randf_range(0, 1)).timeout
+			add_note_window()
 	
 	if is_mouse_in_area:
 		sprite.play("await")
@@ -131,7 +129,6 @@ func _physics_process(delta: float) -> void:
 	else:
 		if -idle_timer > 5:
 			if randf() < 0.05 * delta:
-				print("random less than " + str(0.05 * delta))
 				idle()
 	
 	var window_position := Vector2(DisplayServer.window_get_position())
@@ -211,3 +208,10 @@ func _on_option_button_pressed() -> void:
 	else:
 		options_window.position.x = main_window.position.x - options_window.size.x - main_window.size.x / 2
 	add_child(options_window)
+
+func add_note_window() -> void:
+	if Global.music_notes < Global.music_notes_limit:
+		var new_music = music_effect_scene.instantiate()
+		new_music.position = $MainWindow.position
+		new_music.position.x += randi_range(0, 200)
+		add_child(new_music)
