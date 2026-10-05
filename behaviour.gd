@@ -9,6 +9,7 @@ const BASE_SPEED := 180.0
 @onready var main_window: Window = get_window()
 
 @onready var options_scene: PackedScene = preload("res://options_window.tscn")
+@onready var music_effect_scene: PackedScene = preload("res://music_effect.tscn")
 
 var speed: float = BASE_SPEED
 var direction := Vector2.RIGHT
@@ -57,6 +58,12 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("ui_up"):
 		pass
+		if Global.music_notes < Global.music_notes_limit:
+			var new_music = music_effect_scene.instantiate()
+			new_music.position = $MainWindow.position
+			new_music.position.x += randi_range(0, 200)
+			add_child(new_music)
+		
 		#add_new_window()
 	
 	# F8 Key
@@ -112,14 +119,6 @@ func _physics_process(delta: float) -> void:
 		return
 	else:
 		popup.hide()
-		"""
-	if is_mouse_in_area:
-		speed -= BASE_SPEED * 2 * delta
-		speed = max(0, speed)
-	else:
-		if speed < BASE_SPEED:
-			speed += BASE_SPEED * delta
-			speed = min(speed, BASE_SPEED)"""
 	
 	idle_timer -= delta
 	if is_idling:

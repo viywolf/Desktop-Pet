@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://nai08qq03ua5"]
+
+[ext_resource type="Texture2D" uid="uid://cd4t1coiskl3h" path="res://icon.svg" id="1_f653j"]
+[ext_resource type="Script" uid="uid://dv487mscsk8ws" path="res://music_effect.gd" id="1_flprd"]
+
+[sub_resource type="Animation" id="Animation_f653j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_flprd"]
+resource_name = "bob"
+length = 2.9666667
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.3666667, 2.9666667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(5, 119), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_q6bjm"]
+_data = {
+&"RESET": SubResource("Animation_f653j"),
+&"bob": SubResource("Animation_flprd")
+}
+
+[node name="MusicEffect" type="Window" unique_id=788663314]
+transparent_bg = true
+oversampling_override = 1.0
+size = Vector2i(10, 50)
+unresizable = true
+borderless = true
+always_on_top = true
+transparent = true
+unfocusable = true
+mouse_passthrough = true
+minimize_disabled = true
+maximize_disabled = true
+script = ExtResource("1_flprd")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=821046695]
+texture = ExtResource("1_f653j")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1048240377]
+libraries/ = SubResource("AnimationLibrary_q6bjm")
+autoplay = &"bob"
