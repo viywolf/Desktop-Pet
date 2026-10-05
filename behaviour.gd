@@ -77,6 +77,14 @@ func _physics_process(delta: float) -> void:
 			is_dragging = false
 			has_right_clicked = true
 			print("Right clicked!")
+			
+		speed -= BASE_SPEED * 2 * delta
+		speed = max(0, speed)
+	else:
+		if speed < BASE_SPEED:
+			speed += BASE_SPEED * delta
+			speed = min(speed, BASE_SPEED)
+	
 	
 	if is_dragging:
 		sprite.play("await")
@@ -85,7 +93,6 @@ func _physics_process(delta: float) -> void:
 		var new_win_pos: Vector2 = mouse_pos - saved_local_mouse_pos
 		DisplayServer.window_set_position(Vector2i(new_win_pos))
 		$MainWindow.position = Vector2i(new_win_pos)
-		is_idling = false
 		return
 	else:
 		saved_local_mouse_pos = Vector2.ZERO
@@ -105,14 +112,14 @@ func _physics_process(delta: float) -> void:
 		return
 	else:
 		popup.hide()
-		
+		"""
 	if is_mouse_in_area:
 		speed -= BASE_SPEED * 2 * delta
 		speed = max(0, speed)
 	else:
 		if speed < BASE_SPEED:
 			speed += BASE_SPEED * delta
-			speed = min(speed, BASE_SPEED)
+			speed = min(speed, BASE_SPEED)"""
 	
 	idle_timer -= delta
 	if is_idling:
@@ -135,6 +142,14 @@ func _physics_process(delta: float) -> void:
 	window_position.y = clamp(window_position.y, 0, screen_size.y - character_size.y)
 	DisplayServer.window_set_position(Vector2i(window_position))
 	$MainWindow.position = Vector2i(window_position)
+	
+	if Settings.stop_movement_setting_changed:
+		Settings.stop_movement_setting_changed = false
+		if Settings.stop_movement == true:
+			idle_timer = 80543890
+			is_idling = true
+		else:
+			idle_timer = 0
 	
 	if is_zero_approx(speed):
 		sprite.play("await")

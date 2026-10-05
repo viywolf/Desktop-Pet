@@ -33,3 +33,13 @@ func _on_top_bar_mouse_entered() -> void:
 
 func _on_top_bar_mouse_exited() -> void:
 	mouse_in_top_bar = false
+
+func check_check_boxes() -> void:
+	for i in range($ScrollContainer/VBoxContainer.get_children().size()):
+		var current_child = $ScrollContainer/VBoxContainer.get_child(i)
+		if current_child is CheckBox:
+			if i < 5:
+				Settings.audio_playing[i - 1] = current_child.button_pressed
+			elif i == 8:
+				Settings.stop_movement = current_child.button_pressed
+				Settings.stop_movement_setting_changed = true
