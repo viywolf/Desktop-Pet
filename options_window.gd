@@ -3,13 +3,18 @@ extends Window
 var mouse_in_top_bar := false
 var mouse_down := false
 
-var saved_mouse_pos: Vector2
+func _ready() -> void:
+	for i in range($ScrollContainer/VBoxContainer.get_children().size()):
+		var current_child = $ScrollContainer/VBoxContainer.get_child(i)
+		if current_child is CheckBox:
+			if i < 5:
+				current_child.button_pressed = Settings.audio_playing[i - 1]
+			elif i == 8:
+				current_child.button_pressed = Settings.stop_movement
 
-
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var mouse_pos := Vector2(DisplayServer.mouse_get_position())
-	var local_mouse_pos = mouse_pos - Vector2(self.size)
-	var offset: Vector2 = mouse_pos + saved_mouse_pos #Vector2(60, 20)
+	var offset: Vector2 = mouse_pos - Vector2(60, 20)
 	
 	if mouse_down:
 		self.position = offset
@@ -17,10 +22,11 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("Left Click"):
 		if mouse_in_top_bar:
 			mouse_down = true
-		saved_mouse_pos = local_mouse_pos
 			
 	if Input.is_action_just_released("Left Click"):
 		mouse_down = false
+		
+	check_check_boxes()
 
 
 func _on_close_button_pressed() -> void:
@@ -39,10 +45,10 @@ func check_check_boxes() -> void:
 		var current_child = $ScrollContainer/VBoxContainer.get_child(i)
 		Settings.is_audio_playing = false
 		if current_child is CheckBox:
-			if i < 5:
-				Settings.audio_playing[i - 1] = current_child.button_pressed
+			if i < 7:
+				Settings.audio_playing[i - 3] = current_child.button_pressed
 				if current_child.button_pressed == true:
 					Settings.is_audio_playing = true
-			elif i == 8:
+			elif i == 10:
 				Settings.stop_movement = current_child.button_pressed
 				Settings.stop_movement_setting_changed = true

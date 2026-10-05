@@ -124,9 +124,15 @@ mouse_filter = 1
 text = "<"
 
 [node name="OptionButton" type="Button" parent="MainWindow/WindowPopup/Menu/HBoxContainer" unique_id=2012577982]
+visible = false
 layout_mode = 2
 mouse_filter = 1
 text = "Options"
+
+[node name="QuitButton" type="Button" parent="MainWindow/WindowPopup/Menu/HBoxContainer" unique_id=2095125242]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Death"
 
 [node name="RightButton" type="Button" parent="MainWindow/WindowPopup/Menu/HBoxContainer" unique_id=1416864584]
 layout_mode = 2
@@ -136,18 +142,22 @@ text = ">"
 [node name="Audio" type="Node" parent="." unique_id=172292084]
 script = ExtResource("10_4c57u")
 
-[node name="Bird" type="AudioStreamPlayer" parent="Audio" unique_id=834136054]
-stream = ExtResource("11_w48qg")
-
-[node name="Fire" type="AudioStreamPlayer" parent="Audio" unique_id=1700165764]
-stream = ExtResource("12_vivmo")
-
 [node name="Ocean" type="AudioStreamPlayer" parent="Audio" unique_id=2057694185]
 stream = ExtResource("13_2cqfq")
 
 [node name="Rain" type="AudioStreamPlayer" parent="Audio" unique_id=1686186303]
 stream = ExtResource("14_yaehf")
 
+[node name="Bird" type="AudioStreamPlayer" parent="Audio" unique_id=834136054]
+stream = ExtResource("11_w48qg")
+volume_db = 5.0
+
+[node name="Fire" type="AudioStreamPlayer" parent="Audio" unique_id=1700165764]
+stream = ExtResource("12_vivmo")
+
 [connection signal="mouse_entered" from="MainWindow/WindowPopup/Menu" to="." method="_on_menu_mouse_entered"]
 [connection signal="mouse_exited" from="MainWindow/WindowPopup/Menu" to="." method="_on_menu_mouse_exited"]
+[connection signal="pressed" from="MainWindow/WindowPopup/Menu/HBoxContainer/LeftButton" to="." method="_on_left_button_pressed"]
 [connection signal="pressed" from="MainWindow/WindowPopup/Menu/HBoxContainer/OptionButton" to="." method="_on_option_button_pressed"]
+[connection signal="pressed" from="MainWindow/WindowPopup/Menu/HBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="MainWindow/WindowPopup/Menu/HBoxContainer/RightButton" to="." method="_on_right_button_pressed"]

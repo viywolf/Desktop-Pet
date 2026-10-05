@@ -33,7 +33,7 @@ text = "X"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1400700238]
 offset_top = 53.0
-offset_right = 146.0
+offset_right = 162.0
 offset_bottom = 290.0
 horizontal_scroll_mode = 0
 
@@ -45,6 +45,14 @@ layout_mode = 2
 layout_mode = 2
 text = "Sound Effects"
 horizontal_alignment = 1
+
+[node name="VolumeLabel" type="Label" parent="ScrollContainer/VBoxContainer" unique_id=478057616]
+layout_mode = 2
+text = "Volume: 0%"
+horizontal_alignment = 1
+
+[node name="VolumeSlider" type="HSlider" parent="ScrollContainer/VBoxContainer" unique_id=50051751]
+layout_mode = 2
 
 [node name="OceanSoundCheckBox" type="CheckBox" parent="ScrollContainer/VBoxContainer" unique_id=1243514029]
 layout_mode = 2
@@ -64,10 +72,13 @@ text = "Fire"
 
 [node name="MovementLabel" type="Label" parent="ScrollContainer/VBoxContainer" unique_id=689746642]
 layout_mode = 2
+text = "Movement"
+horizontal_alignment = 1
 
 [node name="AwaitCheckBox" type="CheckBox" parent="ScrollContainer/VBoxContainer" unique_id=1803179033]
 layout_mode = 2
 text = "Pause Movement"
+autowrap_mode = 3
 
 [connection signal="mouse_entered" from="TopBar" to="." method="_on_top_bar_mouse_entered"]
 [connection signal="mouse_exited" from="TopBar" to="." method="_on_top_bar_mouse_exited"]

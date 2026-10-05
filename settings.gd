@@ -1,8 +1,8 @@
 extends Node
 
-var is_audio_playing: bool = true
+var is_audio_playing: bool = false
 var audio_playing: Array[bool] = [
-	true,
+	false,
 	false,
 	false,
 	false,

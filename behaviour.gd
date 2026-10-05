@@ -34,6 +34,7 @@ var left_click_held := false
 var mouse_in_menu := false
 
 var option_window: Window
+var currently_visible_option_index: int = 0
 
 func _ready() -> void:
 	Engine.max_fps = 24
@@ -63,7 +64,6 @@ func _physics_process(delta: float) -> void:
 		get_tree().quit()
 	
 	time += int(delta * 1000)
-	print(time)
 	if Settings.is_audio_playing:
 		if time % 1050 == 0:
 			await get_tree().create_timer(randf_range(0, 1)).timeout
@@ -215,3 +215,30 @@ func add_note_window() -> void:
 		new_music.position = $MainWindow.position
 		new_music.position.x += randi_range(0, 200)
 		add_child(new_music)
+
+
+func _on_left_button_pressed() -> void:
+	currently_visible_option_index -= 1
+	if currently_visible_option_index < 0:
+		currently_visible_option_index = $MainWindow/WindowPopup/Menu/HBoxContainer.get_child_count() - 2
+	show_option_button()
+
+func _on_right_button_pressed() -> void:
+	currently_visible_option_index += 1
+	if currently_visible_option_index >= $MainWindow/WindowPopup/Menu/HBoxContainer.get_child_count() - 2:
+		currently_visible_option_index = 0
+	show_option_button()
+
+func show_option_button() -> void:
+	for i in range($MainWindow/WindowPopup/Menu/HBoxContainer.get_child_count()):
+		if i == 0 or i == $MainWindow/WindowPopup/Menu/HBoxContainer.get_child_count() - 1:
+			continue
+		if i - 1 == currently_visible_option_index:
+			$MainWindow/WindowPopup/Menu/HBoxContainer.get_child(i).show()
+			$MainWindow/WindowPopup/Menu/HBoxContainer.get_child(i).custom_minimum_size.x = 80
+		else:
+			$MainWindow/WindowPopup/Menu/HBoxContainer.get_child(i).hide()
+
+
+func _on_quit_button_pressed() -> void:
+	get_tree().quit()
