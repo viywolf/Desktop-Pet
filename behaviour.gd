@@ -247,4 +247,10 @@ func show_option_button() -> void:
 
 
 func _on_quit_button_pressed() -> void:
+	var tween = create_tween()
+	tween.tween_property($MainWindow, "position:y", main_window.position.y - 100, 0.1)
+	tween.parallel().tween_property($MainWindow/Character/Sprite, "rotation", -3, 0.1)
+	tween.tween_property($MainWindow, "position:y", screen_size.y, 0.5)
+	tween.parallel().tween_property($MainWindow/Character/Sprite, "rotation", -10, 0.5)
+	await tween.finished
 	get_tree().quit()
