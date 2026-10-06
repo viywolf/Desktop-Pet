@@ -1,11 +1,14 @@
 [gd_scene format=3 uid="uid://bdihk786xhko5"]
 
 [ext_resource type="Script" uid="uid://cjeqrcjib2nn" path="res://options_window.gd" id="1_uigoc"]
+[ext_resource type="Theme" uid="uid://dns0qgpq7k131" path="res://main_theme.tres" id="2_qwkf7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwkf7"]
+bg_color = Color(0.4932518, 0.70162624, 0.73737055, 1)
 
 [node name="OptionsWindow" type="Window" unique_id=1444355009]
 transparent_bg = true
 oversampling_override = 1.0
-position = Vector2i(0, 36)
 size = Vector2i(150, 300)
 unresizable = true
 borderless = true
@@ -17,10 +20,13 @@ script = ExtResource("1_uigoc")
 custom_minimum_size = Vector2(150, 300)
 offset_right = 150.0
 offset_bottom = 300.0
+theme = ExtResource("2_qwkf7")
 
 [node name="TopBar" type="Panel" parent="." unique_id=810455104]
 offset_right = 151.0
 offset_bottom = 40.0
+theme = ExtResource("2_qwkf7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_qwkf7")
 
 [node name="CloseButton" type="Button" parent="TopBar" unique_id=348944156]
 unique_name_in_owner = true
@@ -53,6 +59,9 @@ horizontal_alignment = 1
 
 [node name="VolumeSlider" type="HSlider" parent="ScrollContainer/VBoxContainer" unique_id=50051751]
 layout_mode = 2
+max_value = 0.5
+step = 0.01
+value = 0.5
 
 [node name="OceanSoundCheckBox" type="CheckBox" parent="ScrollContainer/VBoxContainer" unique_id=1243514029]
 layout_mode = 2

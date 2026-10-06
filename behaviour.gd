@@ -11,6 +11,10 @@ const BASE_SPEED := 180.0
 @onready var options_scene: PackedScene = preload("res://options_window.tscn")
 @onready var music_effect_scene: PackedScene = preload("res://music_effect.tscn")
 
+# Audio
+var audio_bus_name: String = "Master"
+@onready var main_bus: int = AudioServer.get_bus_index(audio_bus_name)
+
 var time: int = 0
 var speed: float = BASE_SPEED
 var direction := Vector2.RIGHT
@@ -36,6 +40,7 @@ var mouse_in_menu := false
 var option_window: Window
 var currently_visible_option_index: int = 0
 
+
 func _ready() -> void:
 	Engine.max_fps = 24
 	screen_size = Vector2(DisplayServer.screen_get_size())
@@ -57,6 +62,8 @@ func _physics_process(delta: float) -> void:
 		is_mouse_in_area = true
 	else:
 		is_mouse_in_area = false
+	
+	update_audio_volume()
 	
 	# F8 Key
 	if Input.is_action_just_pressed("Terminate Program"):
@@ -167,7 +174,7 @@ func _physics_process(delta: float) -> void:
 	if window_position.x <= 0 or window_position.x >= screen_size.x - character_size.x:
 		direction.x *= -1
 	if window_position.y < screen_size.y - (screen_size.y / 5): 
-		direction.y = 1
+		direction.y = 0.5
 	else:
 		direction.y = 0
 
@@ -254,3 +261,6 @@ func _on_quit_button_pressed() -> void:
 	tween.parallel().tween_property($MainWindow/Character/Sprite, "rotation", -10, 0.5)
 	await tween.finished
 	get_tree().quit()
+
+func update_audio_volume() -> void:
+	AudioServer.set_bus_volume_db(main_bus, linear_to_db(Settings.volume))

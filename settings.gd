@@ -1,5 +1,6 @@
 extends Node
 
+var volume: float = 50
 var is_audio_playing: bool = false
 var audio_playing: Array[bool] = [
 	false,
