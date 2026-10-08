@@ -108,11 +108,11 @@ func _physics_process(delta: float) -> void:
 		speed = 0
 		if popup.visible == false:
 			popup.position = mouse_pos
-			if get_global_mouse_position().x < 100:
+			if get_local_mouse_position().x < 100:
 				popup.position = offset + Vector2(50, 0)
 				print("Show on right")
 			else:
-				popup.position = offset - Vector2(50, 0)
+				popup.position = offset - Vector2(30, 0)
 				print("Show on left")
 			popup.show()
 		return
@@ -242,7 +242,7 @@ func show_option_button() -> void:
 			continue
 		if i - 1 == currently_visible_option_index:
 			$MainWindow/WindowPopup/Menu/HBoxContainer.get_child(i).show()
-			$MainWindow/WindowPopup/Menu/HBoxContainer.get_child(i).custom_minimum_size.x = 80
+			#$MainWindow/WindowPopup/Menu/HBoxContainer.get_child(i).custom_minimum_size.x = 60
 		else:
 			$MainWindow/WindowPopup/Menu/HBoxContainer.get_child(i).hide()
 

@@ -108,19 +108,18 @@ layout_mode = 3
 anchors_preset = 0
 offset_left = -62.0
 offset_top = -23.0
-offset_right = 62.0
-offset_bottom = 15.0
+offset_right = -62.0
+offset_bottom = -23.0
 theme = ExtResource("9_w48qg")
 
 [node name="Panel" type="Panel" parent="MainWindow/WindowPopup/Menu" unique_id=817560434]
 layout_mode = 0
-offset_right = 112.0
+offset_right = 92.0
 offset_bottom = 40.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainWindow/WindowPopup/Menu" unique_id=682292283]
-custom_minimum_size = Vector2(125, 0)
 layout_mode = 0
-offset_right = 123.0
+offset_right = 95.0
 offset_bottom = 40.0
 
 [node name="LeftButton" type="Button" parent="MainWindow/WindowPopup/Menu/HBoxContainer" unique_id=1681658003]
@@ -129,14 +128,14 @@ mouse_filter = 1
 text = "<"
 
 [node name="OptionButton" type="Button" parent="MainWindow/WindowPopup/Menu/HBoxContainer" unique_id=2012577982]
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 mouse_filter = 1
-text = "Options"
+text = "Info"
 
 [node name="QuitButton" type="Button" parent="MainWindow/WindowPopup/Menu/HBoxContainer" unique_id=2095125242]
 visible = false
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 text = "Death"
 
