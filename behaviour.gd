@@ -70,12 +70,6 @@ func _physics_process(delta: float) -> void:
 		print("I leave now, bye")
 		get_tree().quit()
 	
-	time += int(delta * 1000)
-	if Settings.is_audio_playing:
-		if time % 1050 == 0:
-			await get_tree().create_timer(randf_range(0, 1)).timeout
-			add_note_window()
-	
 	if is_mouse_in_area:
 		sprite.play("await")
 		if Input.is_action_just_pressed("Left Click"):
@@ -264,3 +258,9 @@ func _on_quit_button_pressed() -> void:
 
 func update_audio_volume() -> void:
 	AudioServer.set_bus_volume_db(main_bus, linear_to_db(Settings.volume))
+
+
+func _on_note_timer_timeout() -> void:
+	if Settings.is_audio_playing and Settings.music_effects:
+		await get_tree().create_timer(randf_range(0, 1)).timeout
+		add_note_window()

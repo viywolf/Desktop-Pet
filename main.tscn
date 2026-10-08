@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://drtp2tqkulyad" path="res://assets/Await1.png" id="3_4c57u"]
 [ext_resource type="Texture2D" uid="uid://dvx1e7i10idgh" path="res://assets/RunLeft1.png" id="4_efxa6"]
 [ext_resource type="Texture2D" uid="uid://dmhv3tvoifhap" path="res://assets/RunLeft2.png" id="5_dg77c"]
+[ext_resource type="Texture2D" uid="uid://t0rxkixtonhp" path="res://assets/RunRight1.png" id="6_vivmo"]
 [ext_resource type="Texture2D" uid="uid://d1vpv4wtu3ef5" path="res://assets/RunRight2.png" id="7_w48qg"]
 [ext_resource type="Texture2D" uid="uid://js3ubi558py2" path="res://assets/StopLeft.png" id="8_vivmo"]
 [ext_resource type="Texture2D" uid="uid://vr764cnsgu46" path="res://assets/StopRight.png" id="9_2cqfq"]
@@ -14,9 +15,6 @@
 [ext_resource type="AudioStream" uid="uid://bhwpkq08b5dj2" path="res://assets/SoundFire.mp3" id="12_vivmo"]
 [ext_resource type="AudioStream" uid="uid://btjnyjdfeqa61" path="res://assets/SoundOcean.mp3" id="13_2cqfq"]
 [ext_resource type="AudioStream" uid="uid://cgv1wqdnmwgs7" path="res://assets/SoundRain.mp3" id="14_yaehf"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ycdy4"]
-load_path = "res://.godot/imported/RunRight2.png-bc02f86a7677deba84801eef7b681a1e.ctex"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ig7tw"]
 animations = [{
@@ -44,10 +42,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("7_w48qg")
+"texture": ExtResource("6_vivmo")
 }, {
 "duration": 1.0,
-"texture": SubResource("CompressedTexture2D_ycdy4")
+"texture": ExtResource("7_w48qg")
 }],
 "loop": 1,
 "name": &"run_right",
@@ -75,6 +73,10 @@ size = Vector2(195, 199)
 
 [node name="Main" type="Node2D" unique_id=1748423270]
 script = ExtResource("1_0xm2m")
+
+[node name="NoteTimer" type="Timer" parent="." unique_id=228903746]
+wait_time = 4.0
+autostart = true
 
 [node name="MainWindow" type="Window" parent="." unique_id=311602507]
 transparent_bg = true
@@ -160,6 +162,7 @@ volume_db = 5.0
 [node name="Fire" type="AudioStreamPlayer" parent="Audio" unique_id=1700165764]
 stream = ExtResource("12_vivmo")
 
+[connection signal="timeout" from="NoteTimer" to="." method="_on_note_timer_timeout"]
 [connection signal="mouse_entered" from="MainWindow/WindowPopup/Menu" to="." method="_on_menu_mouse_entered"]
 [connection signal="mouse_exited" from="MainWindow/WindowPopup/Menu" to="." method="_on_menu_mouse_exited"]
 [connection signal="pressed" from="MainWindow/WindowPopup/Menu/HBoxContainer/LeftButton" to="." method="_on_left_button_pressed"]

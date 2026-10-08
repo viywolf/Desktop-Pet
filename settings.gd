@@ -11,3 +11,5 @@ var audio_playing: Array[bool] = [
 
 var stop_movement_setting_changed: bool = false
 var stop_movement: bool = false
+
+var music_effects: bool = true

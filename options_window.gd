@@ -13,6 +13,8 @@ func _ready() -> void:
 				current_child.button_pressed = Settings.audio_playing[i - 3]
 			elif i == 8:
 				current_child.button_pressed = Settings.stop_movement
+			elif i == 10:
+				current_child.button_pressed = Settings.music_effects
 
 func _physics_process(_delta: float) -> void:
 	var mouse_pos := Vector2(DisplayServer.mouse_get_position())
@@ -44,9 +46,9 @@ func _on_top_bar_mouse_exited() -> void:
 	mouse_in_top_bar = false
 
 func check_check_boxes() -> void:
+	Settings.is_audio_playing = false
 	for i in range($ScrollContainer/VBoxContainer.get_child_count()):
 		var current_child = $ScrollContainer/VBoxContainer.get_child(i)
-		Settings.is_audio_playing = false
 		if current_child.name == "VolumeSlider":
 			Settings.volume = current_child.value
 		if current_child is CheckBox:
@@ -57,6 +59,8 @@ func check_check_boxes() -> void:
 			elif i == 8:
 				Settings.stop_movement = current_child.button_pressed
 				Settings.stop_movement_setting_changed = true
+			elif i == 10:
+				Settings.music_effects = current_child.button_pressed
 
 func update_volume_percentage() -> void:
 	$ScrollContainer/VBoxContainer/VolumeLabel.text = "Volume: " + str(int($ScrollContainer/VBoxContainer/VolumeSlider.value * 100 * 2)) + "%"

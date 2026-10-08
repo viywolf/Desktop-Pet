@@ -13,7 +13,7 @@ config_version=5
 config/name="Desktop Pet"
 run/main_scene="uid://0fc6ujc6qk17"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-config/icon="uid://d343u72nvi62w"
+config/icon="uid://7k6byvlwf34c"
 
 [autoload]
 
