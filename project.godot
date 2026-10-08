@@ -10,9 +10,11 @@ config_version=5
 
 [application]
 
-config/name="Desktop Pet"
+config/name="Desktop Draux"
 run/main_scene="uid://0fc6ujc6qk17"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+boot_splash/bg_color=Color(0.14117648, 0.14117648, 0.14117648, 0)
+boot_splash/show_image=false
 config/icon="uid://7k6byvlwf34c"
 
 [autoload]
